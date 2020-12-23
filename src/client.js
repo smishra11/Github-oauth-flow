@@ -1,7 +1,6 @@
 import { setContext } from 'apollo-link-context';
 import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-boost';
-import { ApolloClient } from '@apollo/client';
+import { InMemoryCache, ApolloClient } from 'apollo-boost';
 
 const httpLink = new HttpLink({ uri: 'https://api.github.com/graphql' });
 
