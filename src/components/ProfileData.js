@@ -2,16 +2,24 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import Myprofile from './Myprofile';
+
 const GET_CURRENT_USER = gql`
   {
     viewer {
       login
       name
-      repositories(first: 10) {
+      avatarUrl
+      location
+      repositories(first: 6) {
         edges {
           node {
             name
             id
+            createdAt
+            name
+            url
+            description
           }
         }
       }
@@ -19,30 +27,18 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-const Myprofile = () => (
+const ProfileData = () => (
   <Query query={GET_CURRENT_USER}>
     {({ loading, error, data }) => {
       if (loading) return <h4>Loading</h4>;
       if (error) console.log(error);
-
-      const {
-        viewer,
-        viewer: {
-          repositories: { edges },
-        },
-      } = data;
       return (
         <div>
-          {viewer.name} {viewer.login}
-          <ul>
-            {edges.map((edge) => {
-              return <li key={edge.node.id}>{edge.node.name}</li>;
-            })}
-          </ul>
+          <Myprofile data={data} />
         </div>
       );
     }}
   </Query>
 );
 
-export default Myprofile;
+export default ProfileData;
