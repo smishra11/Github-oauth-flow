@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class Login extends Component {
+  state = {
+    redirect: null,
+  };
   btnClick = () => {
-    console.log('btn clicked');
+    console.log('Login clicked');
+    this.setState({ redirect: '/user' });
   };
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div
         style={{
@@ -25,13 +33,15 @@ export default class Login extends Component {
                 textAlign: 'center',
               }}
             >
-              Github oAuth Flow
+              Github OAuth
             </h3>
             <p className="card-text">
-              Log in with Github to see the account details and repositories .
+              Log in with Github to see the repositories and repo details .
             </p>
             <div style={{ textAlign: 'center' }}>
-              <button className="btn btn-info">Log In</button>
+              <button className="btn btn-info" onClick={this.btnClick}>
+                Log In with Github
+              </button>
             </div>
           </div>
         </div>
