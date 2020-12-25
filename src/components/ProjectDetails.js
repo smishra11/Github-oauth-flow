@@ -1,6 +1,9 @@
 import React from 'react';
 import { useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
+import Pencil from '../assets/pencil.svg';
+
+import { useHistory } from 'react-router-dom';
 
 const GET_REPO_DETAIL = gql`
   query Repo($name: String!) {
@@ -23,12 +26,21 @@ const GET_REPO_DETAIL = gql`
   }
 `;
 const ProjectDetails = ({ repoName, userName, avatar }) => {
+  let history = useHistory();
+
   const { loading, error, data } = useQuery(GET_REPO_DETAIL, {
     variables: { name: repoName },
   });
   if (loading) return 'Loading';
   if (error) return console.log(error);
   const { repository } = data.viewer;
+
+  const editBtnClicked = (name) => {
+    console.log(name);
+    // history.push({ pathname: `/user/${name}`, state: name });
+    // console.log(history);
+  };
+
   return (
     <div className="container">
       <div className="card">
@@ -49,22 +61,41 @@ const ProjectDetails = ({ repoName, userName, avatar }) => {
         </div>
         <div className="card-body">
           <p className="card-text font_14">
-            <b>Name: </b> {repository.name}
+            <b>Name :</b>
+            <button
+              className="btn btn-sm pb-2"
+              onClick={() => editBtnClicked('Name')}
+            >
+              <img src={Pencil} alt="pencil" />
+            </button>
+            <br />
+            {repository.name}
           </p>
           <p className="card-text font_14">
-            <b>Description:</b> {repository.description}
+            <b>Description:</b>
+            <button
+              className="btn btn-sm pb-2"
+              onClick={() => editBtnClicked('Description')}
+            >
+              <img src={Pencil} alt="pencil" />
+            </button>
+            <br />
+            {repository.description}
           </p>
           <p className="card-text font_14">
-            <b>Created Date:</b> {repository.createdAt}
+            <b>Created Date:</b>
+            <br /> {repository.createdAt}
           </p>
           <p className="card-text font_14">
             <b>Github URL:</b>
+            <br />
             <a href={repository.url} target="_blank" rel="noreferrer">
               {repository.url}
             </a>
           </p>
           <p className="card-text font_14">
             <b>Issue page:</b>
+            <br />
             <a
               href={repository.url + '/issues'}
               target="_blank"
@@ -74,7 +105,8 @@ const ProjectDetails = ({ repoName, userName, avatar }) => {
             </a>
           </p>
           <p className="card-text font_14">
-            <b>Collaborators: </b>{' '}
+            <b>Collaborators: </b>
+            <br />
             {repository.collaborators.edges.map((colab, i) => {
               return (
                 <span key={i}>
