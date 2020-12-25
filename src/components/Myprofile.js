@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
 import Location from '../assets/location.svg';
 import RepoIcon from '../assets/repo.svg';
+import ProjectDetails from '../components/ProjectDetails';
 
 class Myprofile extends Component {
+  state = {
+    isProjectClicked: false,
+    clickedRepoName: '',
+  };
   componentDidMount() {
     console.log(this.props.data);
   }
+
+  projectClicked = (repo) => {
+    console.log(repo);
+    this.setState({ isProjectClicked: true, clickedRepoName: repo });
+  };
+
   render() {
     const { viewer } = this.props.data;
-    return (
+    return !this.state.isProjectClicked ? (
       <div className="row">
         <div className="col-4">
-          <img
-            className="profileAvatar"
-            src={this.props.data.viewer.avatarUrl}
-            alt="Avatar"
-          />
+          <img className="profileAvatar" src={viewer.avatarUrl} alt="Avatar" />
           <div className="avatarText">
             <h3>{viewer.name}</h3>
             <h5 className="text-secondary">{viewer.login}</h5>
@@ -32,7 +39,11 @@ class Myprofile extends Component {
           <div className="row">
             {viewer.repositories.edges.map((repo) => {
               return (
-                <div className="col-6" key={repo.node.id}>
+                <div
+                  className="col-6"
+                  key={repo.node.id}
+                  onClick={() => this.projectClicked(repo.node.name)}
+                >
                   <div
                     className="card bg-light mb-3"
                     style={{ maxWidth: '25rem' }}
@@ -46,8 +57,8 @@ class Myprofile extends Component {
                         {repo.node.name}
                       </h6>
                       <hr />
-                      <p className="card-text mb-2 ">
-                        Created At - {repo.node.createdAt}
+                      <p className="card-text mb-2">
+                        Created Date - {repo.node.createdAt}
                       </p>
                       <p className="card-text">
                         Github Link -
@@ -67,6 +78,12 @@ class Myprofile extends Component {
           </div>
         </div>
       </div>
+    ) : (
+      <ProjectDetails
+        userName={viewer.login}
+        avatar={viewer.avatarUrl}
+        repoName={this.state.clickedRepoName}
+      />
     );
   }
 }
