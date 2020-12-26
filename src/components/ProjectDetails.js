@@ -3,11 +3,13 @@ import { useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 import Pencil from '../assets/pencil.svg';
 
-import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 const GET_REPO_DETAIL = gql`
   query Repo($name: String!) {
     viewer {
+      avatarUrl
+      login
       repository(name: $name) {
         name
         createdAt
@@ -25,20 +27,17 @@ const GET_REPO_DETAIL = gql`
     }
   }
 `;
-const ProjectDetails = ({ repoName, userName, avatar }) => {
-  let history = useHistory();
-
+const ProjectDetails = (prop) => {
+  const repoName = prop.location.state;
   const { loading, error, data } = useQuery(GET_REPO_DETAIL, {
     variables: { name: repoName },
   });
   if (loading) return 'Loading';
   if (error) return console.log(error);
-  const { repository } = data.viewer;
+  const { login, avatarUrl, repository } = data.viewer;
 
   const editBtnClicked = (name) => {
     console.log(name);
-    // history.push({ pathname: `/user/${name}`, state: name });
-    // console.log(history);
   };
 
   return (
@@ -53,11 +52,11 @@ const ProjectDetails = ({ repoName, userName, avatar }) => {
           }}
         >
           <img
-            src={avatar}
+            src={avatarUrl}
             alt="avatar"
             style={{ height: '25px', width: '25px' }}
           />{' '}
-          {userName} / {repository.name}
+          {login} / {repoName}
         </div>
         <div className="card-body">
           <p className="card-text font_14">
@@ -65,6 +64,7 @@ const ProjectDetails = ({ repoName, userName, avatar }) => {
             <button
               className="btn btn-sm pb-2"
               onClick={() => editBtnClicked('Name')}
+              // style={{ outline: 'none' }}
             >
               <img src={Pencil} alt="pencil" />
             </button>
@@ -124,4 +124,4 @@ const ProjectDetails = ({ repoName, userName, avatar }) => {
   );
 };
 
-export default ProjectDetails;
+export default withRouter(ProjectDetails);

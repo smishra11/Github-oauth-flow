@@ -7,7 +7,7 @@ export default class Login extends Component {
   };
   btnClick = () => {
     console.log('Login clicked');
-    this.setState({ redirect: '/user' });
+    this.setState({ redirect: '/smishra11' });
   };
   render() {
     if (this.state.redirect) {
