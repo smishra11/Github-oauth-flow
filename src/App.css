@@ -34,3 +34,8 @@ body {
 .font_14 {
   font-size: 14px;
 }
+.btn:focus,
+.btn:active,
+.btn:visited {
+  box-shadow: none !important;
+}

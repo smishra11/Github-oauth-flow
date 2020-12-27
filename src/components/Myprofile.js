@@ -9,16 +9,17 @@ const Myprofile = (props) => {
   const { viewer } = props.data;
 
   const [isProjectClicked, setIsProjectClicked] = useState(false);
-  const [clickedRepoName, setClickedRepoName] = useState('');
+  // const [clickedRepoName, setClickedRepoName] = useState('');
 
   const history = useHistory();
 
   const projectClicked = (repo) => {
     console.log(repo);
     setIsProjectClicked(true);
-    setClickedRepoName(repo);
+    // setClickedRepoName(repo);
     history.push({ pathname: `/${viewer.login}/${repo}`, state: repo });
     console.log(history);
+    console.log(viewer);
   };
 
   return !isProjectClicked ? (

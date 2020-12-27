@@ -30,7 +30,18 @@ const GET_CURRENT_USER = gql`
 const ProfileData = () => (
   <Query query={GET_CURRENT_USER}>
     {({ loading, error, data }) => {
-      if (loading) return <h4>Loading</h4>;
+      if (loading)
+        return (
+          <div className="justify-content-center d-flex">
+            <div
+              className="spinner-grow text-info"
+              style={{ height: '3rem', width: '3rem' }}
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+        );
       if (error) console.log(error);
       return (
         <div>
