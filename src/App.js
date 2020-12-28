@@ -3,7 +3,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
+  // Redirect,
   Switch,
 } from 'react-router-dom';
 
@@ -23,11 +23,11 @@ const App = () => {
             <Login />
             {/* <Redirect to="/login" /> */}
           </Route>
-          <Route path="/:username">
+          <Route path="/:username" exact>
             <Navbar />
             <ProfileData />
           </Route>
-          <Route path="/:username/:repo">
+          <Route path="/:username/:repo" exact>
             <Navbar />
             <ProjectDetails />
           </Route>
