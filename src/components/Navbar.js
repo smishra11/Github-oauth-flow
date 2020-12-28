@@ -7,12 +7,12 @@ class Navbar extends Component {
     return (
       <div style={{ marginBottom: '3rem' }}>
         <nav className="navbar navbar-light bg-light">
-          <a className="navbar-brand navGit" href="/smishra11">
+          <Link className="navbar-brand navGit" to="/smishra11">
             <img src={Gitlogo} width="30" height="30" alt="Nav Img" />
             <span style={{ fontWeight: 'bold', fontSize: '24px' }}>
               Git OAuth
             </span>
-          </a>
+          </Link>
           <button className="btn btn-outline-info mr-4">Log Out</button>
         </nav>
       </div>
